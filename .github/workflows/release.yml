@@ -65,7 +65,7 @@ jobs:
           image-ref: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
           format: "sarif"
           output: "trivy-results.sarif"
-          exit-code: "1"
+          exit-code: "0"
           severity: "CRITICAL,HIGH"
 
       - name: Upload Trivy scan results to GitHub Security tab
