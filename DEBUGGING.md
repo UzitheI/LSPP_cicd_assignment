@@ -16,16 +16,16 @@ Our working pipeline consists of two jobs that run sequentially:
    - Starts the server and tests if it responds correctly with a simple curl request
 
 2. **build-job**:
-   - Only runs if `test-job` succeeds (controlled by `needs: test-job`)
-   - Builds a Docker image from our multi-stage Dockerfile
+   - Only runs if `test-job` succeeds
+   - Builds a Docker image from our Dockerfile
    - Tests the Docker container by running it and checking if it responds
    - Performs cleanup by stopping and removing the test container
 
 ### The `needs:` Keyword
 
-The `needs: test-job` ensures that the build-job only runs after test-job completes successfully. This is a fundamental CI principle: we only build and package code that has passed all tests. This prevents broken code from being containerized and potentially deployed.
+The `needs: test-job` makes sure that the build-job only runs after test-job completes successfully. We only build and package code that has passed all tests. This prevents broken code from being deployed.
 
-### Why This Approach Works
+### Perks of our implementation 🥰
 
 - **Fail Fast**: If tests fail, we don't waste time building Docker images
 - **Resource Efficiency**: We only use build resources for verified code
