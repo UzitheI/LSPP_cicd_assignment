@@ -5,13 +5,6 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -23,4 +16,119 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Calculator Styles */
+.calculator {
+  width: 320px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.calculator-display {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.display-value {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: white;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.calculator-keypad {
+  display: flex;
+  gap: 10px;
+}
+
+.input-keys {
+  flex: 3;
+}
+
+.function-keys {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.digit-keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.digit-keys .key-0 {
+  grid-column: 1 / 3;
+}
+
+.operator-keys {
+  flex: 1;
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.calculator button {
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Function keys (AC) */
+.key-clear {
+  background: rgba(255, 59, 48, 0.8) !important;
+  color: white !important;
+}
+
+.key-clear:hover {
+  background: rgba(255, 59, 48, 1) !important;
+  transform: translateY(-2px);
+}
+
+/* Number keys */
+.calculator button[class^="key-"]:not(.key-clear):not([class*="key-divide"]):not([class*="key-multiply"]):not([class*="key-subtract"]):not([class*="key-add"]):not([class*="key-equals"]) {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.calculator button[class^="key-"]:not(.key-clear):not([class*="key-divide"]):not([class*="key-multiply"]):not([class*="key-subtract"]):not([class*="key-add"]):not([class*="key-equals"]):hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Operator keys */
+.key-divide, .key-multiply, .key-subtract, .key-add, .key-equals {
+  background: rgba(255, 149, 0, 0.8) !important;
+  color: white !important;
+}
+
+.key-divide:hover, .key-multiply:hover, .key-subtract:hover, .key-add:hover, .key-equals:hover {
+  background: rgba(255, 149, 0, 1) !important;
+  transform: translateY(-2px);
+}
+
+.calculator button:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
