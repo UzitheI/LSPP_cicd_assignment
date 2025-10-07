@@ -137,10 +137,14 @@ Selected GitHub Container Registry for:
 
 ### Vulnerability Management
 
+![Vulnerability Detection](assets/vulnerability_detection.png)
+
 - **Automated Scanning**: Every release is scanned with Trivy
 - **Fail-Fast**: Pipeline fails on HIGH/CRITICAL vulnerabilities
 - **Transparency**: Security scan results uploaded to GitHub Security tab
 - **Regular Updates**: Dependabot for dependency management
+
+**How it Works**: Trivy scans our Docker images for known vulnerabilities in the OS packages and application dependencies. If any CRITICAL or HIGH severity vulnerabilities are found, the release pipeline automatically fails, preventing insecure images from being published.
 
 ### Container Security
 
@@ -159,6 +163,8 @@ Selected GitHub Container Registry for:
 ## 🛠️ Technology Stack
 
 ### Frontend
+
+x
 
 - **Framework**: Next.js 15 with App Router
 - **UI Library**: React 19 with Server Components
@@ -236,8 +242,6 @@ This project was created for the **LSPP 2025 DevOps CI/CD Assignment**, demonstr
 - Security-first approach
 - Industry-standard practices
 
-
 ## 🙏 Acknowledgments
 
 Thank you Suichhya Didi for the awesome session
-
