@@ -33,20 +33,45 @@ The `needs: test-job` makes sure that the build-job only runs after test-job com
 
 ## Part B: Break and Fix Challenge
 
-_This section will be completed during Assignment 2 when we intentionally introduce and fix a bug._
+Here, like in the assignment doc, I changed the name of the base image in the Dockerfile.
 
 ### The Bug
 
-_To be documented when we introduce the intentional error_
+In the Dockerfile, I changed the base image name to node:18-uzihero which is obviously incorrect, an image like that doesn't exist.
+
+![Docker Base Image Name Changed](assets/wrong_base_image_name.png)
 
 ### Error Analysis
 
-_Screenshot and error message analysis will be added here_
+![Docker Base Image Error](assets/wrong_base_image_error.png)
+
+**Error Message**: `failed to build: failed to solve: node:18-uzihero: failed to resolve source metadata for docker.io/library/node:18-uzihero: docker.io/library/node:18-uzihero: not found`
+
+**Root Cause**: Docker tried to pull a base image with a non-existent tag. The tag `node:18-uzihero` doesn't exist in the official Node.js Docker repository on Docker Hub.
 
 ### The Fix
 
-_Description of how the error was resolved_
+Changed the Dockerfile back to use a legitimate base image:
+
+```dockerfile
+FROM node:18-alpine AS base
+```
+
+This uses the official `node:18-alpine` image, which exists and provides a working Node.js 18 environment on Alpine Linux (a lightweight Linux distribution).
+
+![Right Base Image Name](assets/right_base_image_name.png)
+
+
+### Results
+
+You can check in the image that both of our jobs completed succesfully. You can also see in the logs that the build process went down smoothly, showing no base image error like above.
+
+![Successfull Build](assets/successfull_build.png)
 
 ### Lessons Learned
 
-_Key takeaways from the debugging process_
+1. **Always verify base image tags exist** - Check Docker Hub or the official registry before using custom tags
+2. **Docker error messages are descriptive** - The error clearly indicated the repository doesn't exist
+3. **CI/CD catches errors early** - The pipeline caught this error before any manual deployment attempt
+4. **Fail fast principle works** - The build failed immediately, saving time and resources
+5. **Documentation is crucial** - Having clear error logs makes debugging much faster
