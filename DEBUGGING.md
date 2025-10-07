@@ -96,16 +96,14 @@ FROM node:18-alpine AS base
 - ✅ Runtime health checks passed
 - ✅ End-to-end pipeline validation confirmed
 
-### 📚 Engineering Insights & Best Practices
-
-| Category                    | Insight                                                       | Implementation                                        |
-| --------------------------- | ------------------------------------------------------------- | ----------------------------------------------------- |
-| **Registry Validation**     | Always verify base image tags exist before deployment         | Implement pre-commit hooks with registry validation   |
-| **Error Diagnostics**       | Docker provides clear, actionable error messages              | Establish error log analysis procedures               |
-| **Pipeline Resilience**     | CI/CD systems effectively prevent faulty deployments          | Maintain strict quality gates in deployment pipelines |
-| **Incident Response**       | Fail-fast principles minimize blast radius and resource waste | Design systems for rapid failure detection            |
-| **Documentation Standards** | Comprehensive logging accelerates incident resolution         | Implement structured logging and monitoring           |
-
 ### 🎯 Key Takeaways
 
-> **DevOps Principle**: I learnt the importance of automated quality gates to prevent any production error. Since, everything's tested automatically, it also saves my dev time. 
+> **DevOps Principle**: I learnt the importance of automated quality gates to prevent any production error. Since, everything's tested automatically, it also saves my dev time.
+
+1. **Registry Validation**: Always verify base image tags exist before deployment - I now implement pre-commit hooks with registry validation to catch these issues early
+
+2. **Error Diagnostics**: Docker provides clear, actionable error messages - This helped me quickly identify that the issue was with a non-existent image tag rather than configuration problems
+
+3. **Pipeline Resilience**: CI/CD systems effectively prevent faulty deployments - The automated pipeline caught this error before it could reach production, demonstrating the value of quality gates
+
+4. **Incident Response**: Fail-fast principles minimize blast radius and resource waste - The build failed immediately without wasting time on subsequent steps, saving both time and compute resources
