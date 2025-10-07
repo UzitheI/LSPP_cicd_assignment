@@ -49,6 +49,8 @@ In the Dockerfile, I changed the base image name to node:18-uzihero which is obv
 
 **Root Cause**: Docker tried to pull a base image with a non-existent tag. The tag `node:18-uzihero` doesn't exist in the official Node.js Docker repository on Docker Hub.
 
+The link to the error run is: https://github.com/UzitheI/LSPP_cicd_assignment/actions/runs/18311683218
+
 ### The Fix
 
 Changed the Dockerfile back to use a legitimate base image:
@@ -61,6 +63,7 @@ This uses the official `node:18-alpine` image, which exists and provides a worki
 
 ![Right Base Image Name](assets/right_base_image_name.png)
 
+The Link to the Run is: https://github.com/UzitheI/LSPP_cicd_assignment/actions/runs/18311772295
 
 ### Results
 
