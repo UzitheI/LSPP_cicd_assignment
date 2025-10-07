@@ -1,0 +1,84 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    name: Test Application
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Run build test
+        run: npm run build
+
+      - name: Test application startup
+        run: |
+          echo "Testing if the application builds and can be started"
+          timeout 30s npm start &
+          SERVER_PID=$!
+          sleep 5
+
+          # Test if the server is responding
+          if curl -f http://localhost:3000 --max-time 10; then
+            echo "✅ Server is responding correctly"
+            kill $SERVER_PID 2>/dev/null || true
+          else
+            echo "❌ Server failed to respond"
+            kill $SERVER_PID 2>/dev/null || true
+            exit 1
+          fi
+
+  build-job:
+    runs-on: ubuntu-latest
+    name: Build Docker Image
+    needs: test-job
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          echo "🐳 Building Docker image..."
+          docker build -t nextjs-devops-app:${{ github.sha }} .
+          echo "✅ Docker image built successfully"
+
+      - name: Test Docker image
+        run: |
+          echo "🧪 Testing Docker container..."
+          docker run -d -p 3000:3000 --name test-container nextjs-devops-app:${{ github.sha }}
+
+          # Wait for container to start
+          sleep 10
+
+          # Test if container is responding
+          if curl -f http://localhost:3000 --max-time 10; then
+            echo "✅ Docker container is working correctly"
+          else
+            echo "❌ Docker container failed to respond"
+            docker logs test-container
+            exit 1
+          fi
+
+          # Cleanup
+          docker stop test-container
+          docker rm test-container
